@@ -28,14 +28,15 @@ const readLines = async (filePath) => {
 
 const sendMessage = async (page, message) => {
     await page.waitForSelector('.mantine-Textarea-input');
-    await page.type('.mantine-Textarea-input', message, {delay: 50});
+    await page.type('.mantine-Textarea-input', message, {delay: 25});
     
     await page.waitForSelector('button[type="submit"]');
     await page.click('button[type="submit"]');
    
     // Chờ phản hồi từ API
     const response = await page.waitForResponse(response => 
-        response.url().includes('http://localhost:8000/api/chat_message/create') && response.status() === 202
+        response.url().includes('http://localhost:8000/api/chat_message/create') && response.status() === 202,
+        { timeout: 100000 }
     );
 
 };
